@@ -496,7 +496,7 @@ export default {
             setSelectedItem: this.setSelectedItem,
             performBulkAction: this.performBulkAction,
             processingAction: this.processingAction,
-            isLoading: this.isLoading,
+            isLoading: this.isLoading
         });
     },
 };

@@ -58,6 +58,7 @@ trait HasColumns
         array|string|null $classes = null,
         callable|null $as = null,
         string $alignment = 'left',
+        string|null $freezed = null
     ): self {
         $key   = $key   !== null ? $key : Str::kebab($label);
         $label = $label !== null ? $label : Str::headline(str_replace('.', ' ', $key));
@@ -86,6 +87,7 @@ trait HasColumns
             classes: $classes,
             as: $as,
             alignment: $alignment,
+            freezed: $freezed,
         ))->values();
 
         if (!$searchable) {
@@ -99,7 +101,7 @@ trait HasColumns
     }
 
     /**
-     * Returns a coolean with all columns, and applies the
+     * Returns a collection with all columns, and applies the
      * data from the request query to each column.
      */
     public function columns(): Collection
@@ -128,6 +130,12 @@ trait HasColumns
             }
 
             return $cloned;
+        })->sortBy(function (Column $column, int $key) {
+            return match($column->freezed) {
+                'left' => 0,
+                null => 1,
+                'right' => 2
+            };
         });
     }
 

@@ -18,7 +18,32 @@
             @endforeach
 
             <x-splade-component is="table-wrapper">
-                <table class="min-w-full divide-y divide-gray-200 bg-white">
+                @if($table->hasFrozenColumns())
+                    <style>
+                        @if($table->getRightFrozenColsCount() > 0)
+                            /* congela le ultime n colonne */
+                            {{ $table->tableId }} th:nth-last-child(-n+{{ $table->getRightFrozenColsCount() }}),
+                            {{ $table->tableId }} td:nth-last-child(-n+{{ $table->getRightFrozenColsCount() }}) {
+                                position: sticky;
+                                right: -1px;
+                                z-index: 1;
+                                background-color: white;
+                            }
+                        @endif
+
+                        @if($table->getRightFrozenColsCount() > 0)
+                            /* congela le prime n colonne */
+                            {{ $table->tableId }} th:nth-child(-n+{{ $table->getLeftFrozenColsCount() }}),
+                            {{ $table->tableId }} td:nth-child(-n+{{ $table->getLeftFrozenColsCount() }}) {
+                                position: sticky;
+                                right: -1px;
+                                z-index: 1;
+                                background-color: white;
+                            }
+                        @endif
+                    </style>
+                @endif
+                <table id="{{ $table->tableId }}" class="min-w-full divide-y divide-gray-200 bg-white">
                     @unless($headless)
                         @isset($head)
                             {{ $head }}

@@ -51,6 +51,8 @@ class SpladeTable
 
     protected bool $resourceLoaded = false;
 
+    protected string $tableId = '';
+
     /**
      * Creates a new instance.
      *
@@ -66,6 +68,8 @@ class SpladeTable
         $this->filters      = new Collection;
         $this->searchInputs = new Collection;
         $this->rowLinks     = new Collection;
+
+        $this->tableId      = Str::random();
 
         $this->name(static::DEFAULT_NAME);
 
@@ -196,6 +200,26 @@ class SpladeTable
     public static function hidePaginationWhenResourceContainsOnePage(bool $value = true)
     {
         static::$hidePaginationWhenResourceContainsOnePage = $value;
+    }
+
+    public function hasFrozenColumns(): bool {
+        return $this->columns()->filter(fn ($col) => $col->freezed !== null)->count() > 0;
+    }
+
+    /**
+     * Return the length of left frozen columns
+     * @return int
+     */
+    public function getLeftFrozenColsCount(): int {
+        return $this->columns()->filter(fn ($col) => $col->freezed === 'left')->count();
+    }
+
+    /**
+     * Return the length of right frozen columns
+     * @return int
+     */
+    public function getRightFrozenColsCount(): int {
+        return $this->columns()->filter(fn ($col) => $col->freezed === 'right')->count();
     }
 
     /**

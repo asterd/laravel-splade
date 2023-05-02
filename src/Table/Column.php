@@ -30,6 +30,7 @@ class Column implements Arrayable
         public array|string|null $classes = null,
         public Closure|null $as = null,
         public string $alignment = 'left',
+        public string|null $freezed = null,
     ) {
         if (is_array($classes)) {
             $classes = Arr::flatten($classes);
@@ -57,6 +58,7 @@ class Column implements Arrayable
             $this->classes,
             $this->as,
             $this->alignment,
+            $this->freezed,
         );
     }
 
@@ -76,11 +78,12 @@ class Column implements Arrayable
             'sorted'        => $this->sorted,
             'highlight'     => $this->highlight,
             'alignment'     => $this->alignment,
+            'freezed'       => $this->freezed,
         ];
     }
 
     /**
-     * It gets thet data from the given item, based on the column
+     * It gets the data from the given item, based on the column
      * and whether that column is based on a relationship
      * Supports returning multiple items as well.
      *
