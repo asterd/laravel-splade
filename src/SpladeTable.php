@@ -69,7 +69,7 @@ class SpladeTable
         $this->searchInputs = new Collection;
         $this->rowLinks     = new Collection;
 
-        $this->tableId      = Str::random();
+        $this->tableId      = Str::random(7);
 
         $this->name(static::DEFAULT_NAME);
 
@@ -142,6 +142,14 @@ class SpladeTable
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * Returns the tableID
+     * @return String
+     */
+    public function getTableId(): string {
+        return $this->tableId;
     }
 
     /**
